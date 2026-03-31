@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GESTIÓN TERRITORIOS PROVENÇANA</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <style>
+        body { padding: 10px; max-width: 500px; margin: 0 auto; font-family: sans-serif; padding-bottom: 70px; padding-top: 140px; }
+        .top-fixed { position: fixed; top: 0; left: 0; width: 100%; background: white; z-index: 1000; padding: 10px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .top-content { max-width: 500px; margin: 0 auto; padding: 0 10px; }
+        header { text-align: center; margin-bottom: 10px; border-bottom: 2px solid #007bff; padding-bottom: 5px; }
+        header h2 { margin: 0; color: #007bff; font-size: 1.2em; }
+        .btn-refresh { background: #007bff; color: white; border: none; width: 100%; font-weight: bold; padding: 12px; cursor: pointer; border-radius: 4px; font-size: 0.9em; }
+        nav { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap; margin-top: 10px; }
+        nav button { flex: 1; padding: 8px 2px; font-size: 11px; cursor: pointer; min-width: 70px; }
+        .tab { display: none; padding: 15px; border: 1px solid #ccc; border-radius: 8px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .active { display: block; }
+        .btn-active { background: #007bff !important; color: white !important; }
+        .card { padding: 12px; margin-bottom: 8px; border-radius: 6px; color: white; font-weight: bold; }
+        .verde { background: #27ae60; border-bottom: 3px solid #1e8449; }
+        .naranja { background: #f39c12; border-bottom: 3px solid #d68910; }
+        .rojo { background: #e74c3c; border-bottom: 3px solid #c0392b; }
+        small { display: block; font-weight: normal; opacity: 0.9; margin-top: 4px; }
+        #loading { text-align: center; font-weight: bold; color: #007bff; margin: 10px 0; display: none; }
+        input, select { width: 100%; margin-bottom: 10px; }
+        .btn-pdf { background: #555 !important; color: white !important; border: none; }
+        #info-dev { margin-bottom: 15px; padding: 10px; background: #f0f4f8; border-left: 4px solid #007bff; font-size: 0.85em; color: #333; border-radius: 4px; display: none; }
+        footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #f9f9f9; text-align: center; padding: 10px 0; font-size: 0.75em; color: #777; border-top: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+    <div class="top-fixed">
+        <div class="top-content">
+            <header>
+                <h2>GESTIÓN TERRITORIOS PROVENÇANA</h2>
+            </header>
+            <div class="actualizar-container">
+                <button class="btn-refresh" onclick="location.reload()">🔄 ACTUALIZAR DATOS</button>
+            </div>
+            <nav>
+                <button id="t1" class="btn-active" onclick="showTab('entrega', 't1')">ENTREGA</button>
+                <button id="t2" onclick="showTab('devolucion', 't2')">DEVOLUCIÓN</button>
+                <button id="t3" onclick="showTab('estados', 't3')">ESTADOS</button>
+                <button class="btn-pdf" onclick="prepararPDFs()">PDF 📄</button>
+            </nav>
+        </div>
+    </div>
+
+    <div id="loading">Cargando datos...</div>
+
+    <div id="entrega" class="tab active">
+        <h3>Asignación</h3>
+        <p style="font-size: 0.8em; color: #666;">Descanso mín. 30 días | Orden: Más tiempo libre primero</p>
+        <label>Territorio Disponible:</label>
+        <select id="s-ent" onchange="mostrarInfoDevolucion()"></select>
+        <div id="info-dev"></div>
+        <label>Nombre Publicador:</label>
+        <input type="text" id="n-ent" placeholder="Nombre...">
+        <button onclick="enviar('entrega')" id="btn-e" style="background:#2ecc71; color:white; width:100%; border:none;">Registrar Entrega</button>
+    </div>
+
+    <div id="devolucion" class="tab">
+        <h3>Devolución</h3>
+        <select id="s-dev"></select>
+        <button onclick="enviar('devolucion')" id="btn-d" style="background:#3498db; color:white; width:100%; border:none;">Registrar Devolución</button>
+    </div>
+
+    <div id="estados" class="tab">
+        <h3>Territorios Entregados</h3>
+        <p style="font-size: 0.8em; color: #666; margin-bottom: 10px;">Orden: Los más antiguos primero (Rojo > 4 meses)</p>
+        <div id="lista"></div>
+    </div>
+
+    <footer>(C)opyright 2026 by Congregación Provençana</footer>
+
+    <script>
+        const URL_GOOGLE = "https://script.google.com/macros/s/AKfycby4JnAGmAK24zJgSWVDeajqvAbsk0nqsUayg50tNKrjWsZDYavN4sehR1OJWX0jf3Y4kA/exec";
+        const ID_HOJA = "1S2igQGTH0xOgVs0LU8o6G3s-d2j3GJak_VRwyPnVf8g";
+
+        let datosGlobales = [];
+        window.onload = cargar;
+
+        function showTab(id, btnId) {
+            document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(x => x.classList.remove('btn-active'));
+            document.getElementById(id).classList.add('active');
+            if(btnId) document.getElementById(btnId).classList.add('btn-active');
+            cargar();
+        }
+
+        function prepararPDFs() {
+            const s = document.createElement('script');
+            s.src = URL_GOOGLE + "?action=listarHojas&callback=lanzarPDFs";
+            document.body.appendChild(s);
+        }
+
+        function lanzarPDFs(hojas) {
+            hojas.forEach(nombreHoja => {
+                const exportUrl = `https://docs.google.com/spreadsheets/d/${ID_HOJA}/export?format=pdf&size=A4&portrait=true&gridlines=false&gid=0&sheetnames=false&activeSheet=false&single=true&sheet=${nombreHoja}`;
+                window.open(exportUrl, '_blank');
+            });
+        }
+
+        function cargar() {
+            document.getElementById('loading').style.display = 'block';
+            const s = document.createElement('script');
+            s.src = URL_GOOGLE + "?action=obtenerDatos&callback=dibujar";
+            document.body.appendChild(s);
+        }
+
+        function dibujar(data) {
+            datosGlobales = data;
+            document.getElementById('loading').style.display = 'none';
+            const se = document.getElementById('s-ent'), sd = document.getElementById('s-dev'), li = document.getElementById('lista');
+            se.innerHTML = sd.innerHTML = '<option value="">Selecciona...</option>';
+            li.innerHTML = "";
+            const hoy = new Date();
+
+            // 1. ENTREGA: Filtrar libres (>30 días) y ordenar por mayor descanso (más antiguo primero)
+            let disponibles = data.filter(item => {
+                if (!item.libre) return false;
+                if (!item.fechaD) return true;
+                let diff = (hoy - new Date(item.fechaD)) / (1000 * 60 * 60 * 24);
+                return diff >= 30;
+            }).sort((a, b) => new Date(a.fechaD) - new Date(b.fechaD));
+
+            disponibles.forEach(item => {
+                let diasDescanso = item.fechaD ? Math.floor((hoy - new Date(item.fechaD))/(1000*60*60*24)) : "N/A";
+                se.innerHTML += `<option value="${item.num}">Territorio ${item.num} (${diasDescanso} d. descanso)</option>`;
+            });
+
+            // 2. ESTADOS: Filtrar los que están FUERA y ordenar por antigüedad de entrega (más antiguos arriba)
+            let fuera = data.filter(item => !item.libre).sort((a, b) => {
+                return new Date(a.fechaE) - new Date(b.fechaE);
+            });
+
+            fuera.forEach(item => {
+                // Devolución desplegable
+                sd.innerHTML += `<option value="${item.num}">Territorio ${item.num} (${item.nombre})</option>`;
+                
+                // Tarjeta en lista de estados
+                let diffMs = hoy - new Date(item.fechaE);
+                let meses = diffMs / (1000*60*60*24*30);
+                let diasTotales = Math.floor(diffMs / (1000*60*60*24));
+                
+                let color = meses >= 4 ? 'rojo' : (meses >= 3 ? 'naranja' : 'verde');
+                li.innerHTML += `<div class="card ${color}">Terr. ${item.num}: ${item.nombre}<small>Entregado hace ${diasTotales} días (${meses.toFixed(1)} meses)</small></div>`;
+            });
+        }
+
+        function mostrarInfoDevolucion() {
+            const num = document.getElementById('s-ent').value;
+            const infoDiv = document.getElementById('info-dev');
+            const t = datosGlobales.find(x => x.num == num);
+            if (num && t && t.fechaD) {
+                const fDev = new Date(t.fechaD);
+                const diffDays = Math.ceil(Math.abs(new Date() - fDev) / (1000 * 60 * 60 * 24));
+                infoDiv.style.display = 'block';
+                infoDiv.innerHTML = `📅 <b>Última devolución:</b> ${fDev.toLocaleDateString()}<br>⏱️ <b>Descanso acumulado:</b> ${diffDays} días`;
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        }
+
+        function enviar(tipo) {
+            const num = (tipo === 'entrega') ? document.getElementById('s-ent').value : document.getElementById('s-dev').value;
+            const nom = document.getElementById('n-ent').value;
+            if(!num) return alert("Selecciona territorio");
+            document.getElementById('loading').style.display = 'block';
+            const s = document.createElement('script');
+            s.src = `${URL_GOOGLE}?action=procesarAccion&accion=${tipo}&num=${num}&nombre=${encodeURIComponent(nom)}&callback=finalizar`;
+            document.body.appendChild(s);
+        }
+
+        function finalizar(r) {
+            alert(r === "OK" ? "¡Registro actualizado!" : r);
+            location.reload();
+        }
+    </script>
+</body>
+</html>
