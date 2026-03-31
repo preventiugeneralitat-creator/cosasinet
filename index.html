@@ -3,84 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitio en Construcción</title>
+    <title>COSAS DE INET - Portal IT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* --- ESTILOS GENERALES --- */
-        body, html {
-            margin: 0;
-            padding: 0;
+        :root {
+            --primary: #00d4ff;
+            --secondary: #0055ff;
+            --bg-dark: #0a0b10;
+            --card-bg: #161b22;
+            --text-main: #e6edf3;
+            --accent-gold: #d4af37;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-top: 100px; /* Espacio para el header fijo */
+            padding-bottom: 60px;
+        }
+
+        /* --- HEADER FIJO --- */
+        header {
+            position: fixed;
+            top: 0;
             width: 100%;
-            height: 100%;
-            overflow: hidden; /* Evita barras de desplazamiento */
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #121212; /* Fondo gris muy oscuro */
-            color: #E0E0E0; /* Texto gris claro */
+            height: 100px;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0,212,255,0.3);
         }
 
-        /* --- CONTENEDOR PRINCIPAL --- */
-        .container {
-            padding: 20px;
-            max-width: 600px;
-            animation: fadeIn 2s ease-in-out; /* Animación de entrada */
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0,212,255,0.5);
+            letter-spacing: 3px;
         }
 
-        /* --- TÍTULO PRINCIPAL (Elegante y con espaciado) --- */
-        h1 {
-            font-size: 3rem;
-            font-weight: 200; /* Fino */
+        /* --- NAVEGACIÓN --- */
+        nav {
+            background: #1f242d;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px 0;
+            position: sticky;
+            top: 100px;
+            z-index: 999;
+        }
+
+        nav button {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: 8px; /* Mucho espacio entre letras */
-            margin-bottom: 10px;
-            color: #C0C0C0; /* Plata mate */
+            font-size: 0.8rem;
         }
 
-        /* --- LÍNEA DIVISORIA (Toque dorado) --- */
-        .divider {
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(to right, transparent, #D4AF37, transparent); /* Degradado dorado */
-            margin: 25px auto;
+        nav button.active, nav button:hover {
+            background: var(--primary);
+            color: #000;
         }
 
-        /* --- SUBTÍTULO (Descripción) --- */
-        p {
-            font-size: 1.1rem;
-            font-weight: 300;
-            line-height: 1.6;
-            letter-spacing: 1px;
-            color: #A0A0A0;
-            margin-bottom: 30px;
+        /* --- CONTENIDO --- */
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 20px;
         }
 
-        /* --- ANIMACIÓN DE ENTRADA --- */
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+        .tab-content { display: none; animation: fadeIn 0.5s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- TARJETAS (CARDS) --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
 
-        /* --- RESPONSIVE (Ajustes para móviles) --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- BOTONES --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--secondary);
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px 0;
+            width: 100%;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover { background: #0044cc; filter: brightness(1.2); }
+        .btn-large { font-size: 1.2rem; padding: 20px; background: linear-gradient(45deg, #0055ff, #00d4ff); }
+
+        /* --- ELEMENTOS DE TEXTO --- */
+        .code-box {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            border-left: 3px solid var(--primary);
+        }
+
+        .desc { font-size: 0.9rem; color: #8b949e; margin: 10px 0; }
+        .hashtag { display: block; font-weight: bold; color: var(--accent-gold); margin-top: 5px; text-align: center; }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #0d1117;
+            border-top: 1px solid #30363d;
+            font-size: 0.9rem;
+            color: #8b949e;
+        }
+
+        /* --- RESPONSIVE --- */
         @media (max-width: 600px) {
-            h1 {
-                font-size: 2rem;
-                letter-spacing: 4px;
-            }
-            p {
-                font-size: 1rem;
-            }
+            header h1 { font-size: 1.4rem; }
+            nav { flex-wrap: wrap; }
         }
     </style>
 </head>
 <body>
 
+    <header>
+        <h1>COSAS DE INET</h1>
+    </header>
+
+    <nav>
+        <button class="active" onclick="openTab('sdades')">SDADES</button>
+        <button onclick="openTab('accesos')">ACCESOS EMPRESA</button>
+        <button onclick="openTab('utilidades')">UTILIDADES</button>
+    </nav>
+
     <div class="container">
-        <h1>EN CONSTRUCCIÓN</h1>
-        <div class="divider"></div>
-        <p>Estamos trabajando en algo excepcional. Pronto estaremos online con una nueva experiencia digital.</p>
+        
+        <div id="sdades" class="tab-content active">
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="https://lt2a.ddns.net:1992/sharing/67X5rgzUF" target="_blank" class="btn btn-large">
+                    <i class="fas fa-share-nodes"></i> ACCEDER A SDADES
+                </a>
+            </div>
+        </div>
+
+        <div id="accesos" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h3><i class="fas fa-building"></i> Gestión y Correo</h3>
+                    <a href="https://atomgencat.onbmc.com/" target="_blank" class="btn"><i class="fas fa-rocket"></i> ATOM GENCAT</a>
+                    <a href="http://mail.grupo-inet.com/Default.aspx" target="_blank" class="btn"><i class="fas fa-envelope"></i> CORREO CORPORATIVO INET</a>
+                    <a href="https://axis.grupocastilla.es/epsilonnet/default.aspx" target="_blank" class="btn"><i class="fas fa-user-tie"></i> PORTAL DEL EMPLEADO</a>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-server"></i> Servidores y Cloud</h3>
+                    <a href="https://atenea-aapp.synology.me:2022/?launchApp=SYNO.SDS.Drive.BasicInstance&launchParam=link%3DxJ2dd9aA7T6t9f5Nxae99FC7aK08Prl6#/signin" target="_blank" class="btn"><i class="fas fa-database"></i> SERVIDOR ATENEU SYNOLOGY</a>
+                    <a href="https://aeticat.sharepoint.com/:f:/s/msteams_09a9e4-OscarTN/EosG_iXXTq5Cg1RCpG8uKd4BvUnSmMglX6bTZr8Myzd8Vw?e=5%3axb1300&at=9" target="_blank" class="btn"><i class="fab fa-microsoft"></i> SERVIDOR CLIENTE MICROSOFT</a>
+                    <a href="https://intune.microsoft.com/" target="_blank" class="btn"><i class="fas fa-shield-halved"></i> ACCESO A INTUNE</a>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-tools"></i> Herramientas de Campo</h3>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSefRF7Mbf1SPUqFR6xJghSXN1Vj_LKe2ZHFkPc0BcvBMfabrg/viewform" target="_blank" class="btn"><i class="fas fa-battery-half"></i> FORMULARIO PILA CMOS</a>
+                    <a href="https://filedn.eu/lTfK08yBBUmfiimV2cvWFHb/BAD%20visitas/index.html" target="_blank" class="btn"><i class="fas fa-print"></i> IMPRIMIR BAD</a>
+                    <a href="https://www.lt2a-suport.es/utilitats-servei" target="_blank" class="btn"><i class="fas fa-wrench"></i> UTILITATS SERVEI</a>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-download"></i> Soporte INET</h3>
+                    <a href="https://www.lt2a-suport.es/" target="_blank" class="btn"><i class="fas fa-laptop-code"></i> DESCARGAR MAQUETAS INET</a>
+                    <span class="hashtag">#Tech%26</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="utilidades" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h3><i class="fas fa-network-wired"></i> Unidades de Red</h3>
+                    <p class="desc">Pequeño BAT para añadir las unidades de red en cualquier ordenador. Solo hay que editarlo y cambiar la IP por la del servidor del centro.</p>
+                    <a href="https://drive.google.com/file/d/1QCXr5NCOJ7HNXxgP6o32LvVzb9mWq1z5/view?usp=sharing" target="_blank" class="btn"><i class="fas fa-file-code"></i> DESCARGAR BAT</a>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-box-open"></i> Aplicaciones</h3>
+                    <a href="https://7-zip.org/a/7z2406-x64.exe" target="_blank" class="btn"><i class="fas fa-file-zipper"></i> 7ZIP</a>
+                    <a href="https://drive.google.com/file/d/1ybKxmv4JVUdrdohqbUTXBxBDe0_Kkqce/view?usp=sharing" target="_blank" class="btn"><i class="fas fa-download"></i> RUCKZUCK</a>
+                    <a href="https://outbyte.com/software/camomile/download?_sid=27T5xZr26E&_dr=https%253A%252F%252Fcamomileapp.com%252F" target="_blank" class="btn"><i class="fas fa-leaf"></i> CAMOMILE</a>
+                    <a href="https://download.onlyoffice.com/install/desktop/editors/windows/distrib/onlyoffice/DesktopEditors_x64.exe" target="_blank" class="btn"><i class="fas fa-file-word"></i> ONLYOFFICE</a>
+                    <a href="https://patchmypc.com/freeupdater/PatchMyPC.exe" target="_blank" class="btn"><i class="fas fa-sync"></i> PATCHMYPC</a>
+                    <a href="https://drive.usercontent.google.com/download?id=1IZvIPqZiS4rMJx24K34G5yhGvfYJ1OEk&export=download" target="_blank" class="btn"><i class="fab fa-windows"></i> OFFICE 365 x86</a>
+                    <a href="https://drive.usercontent.google.com/download?id=1D32pHxPFkGcIzavljVu3rtrQIzhxYTr1&export=download" target="_blank" class="btn"><i class="fab fa-windows"></i> OFFICE 365 x64</a>
+                    <a href="https://www.wikiversus.com/gaming/teclados/test-key-rollover-y-anti-ghosting" target="_blank" class="btn"><i class="fas fa-keyboard"></i> PRUEBAS TECLADO ONLINE</a>
+                    <a href="https://get.adobe.com/es/reader/enterprise/" target="_blank" class="btn"><i class="fas fa-file-pdf"></i> ADOBE READER OFFLINE</a>
+                    <a href="https://it-tools.tech/" target="_blank" class="btn"><i class="fas fa-toolbox"></i> HERRAMIENTAS IT ONLINE</a>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-terminal"></i> Scripts PowerShell</h3>
+                    <p><strong>INSTALAR APLICACIONES:</strong></p>
+                    <div class="code-box">irm https://christitus.com/win | iex</div>
+                    <p><strong>DESINSTALAR BLOATWARE:</strong></p>
+                    <div class="code-box">& ([scriptblock]::Create((irm "https://win11debloat.raphi.re/")))</div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-key"></i> Seguridad</h3>
+                    <a href="https://bitwarden.com/es-la/password-strength/" target="_blank" class="btn"><i class="fas fa-shield-check"></i> COMPROBAR SEGURIDAD</a>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-microchip"></i> Drivers por Marca</h3>
+                    <a href="https://drive.google.com/file/d/1YP-iyZ3IxDoZjxIdu5FYrrNh00pbJ2W3/view?usp=drive_link" target="_blank" class="btn">DELL</a>
+                    <a href="https://drive.google.com/file/d/1V2yO2XWusyYO5E0AB5qPjM6ZO4tGVob0/view?usp=drive_link" target="_blank" class="btn">HP</a>
+                    <a href="https://drive.google.com/file/d/1UkeAAsoVw5jbFKEIGQ29I0UAe7TUAPiT/view?usp=drive_link" target="_blank" class="btn">INTEL</a>
+                    <a href="https://drive.google.com/file/d/192BkIlyQFN-Oqdq9TwZgVAuca5VzR-A9/view?usp=drive_link" target="_blank" class="btn">LENOVO</a>
+                    <a href="https://drive.google.com/drive/folders/1aE1Evjr_-c7Pq9DtEgPw34TOOPjgEHfc?usp=drive_link" target="_blank" class="btn">PANELES INTERACTIVOS</a>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-wifi"></i> WIFI Gencat</h3>
+                    <a href="https://docs.google.com/spreadsheets/d/1zp1yvoI1zK9K6VmjIASiFW3Cv9P9Xrgp/edit?usp=sharing" target="_blank" class="btn">VER WIFIS</a>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-bug"></i> Antivirus Gratis</h3>
+                    <a href="https://www.bitdefender.es/solutions/free.html#" target="_blank" class="btn">BIT DEFENDER</a>
+                    <a href="https://www.avast.com/es-es/download-thank-you.php?product=FAV-ONLINE-W11" target="_blank" class="btn">AVAST</a>
+                    <a href="https://www.avira.com/es/start-download/product/2262/" target="_blank" class="btn">AVIRA</a>
+                    <a href="https://play.google.com/store/apps/details?id=org.malwarebytes.antimalware" target="_blank" class="btn">MALWAREBYTES</a>
+                    <a href="https://computerhoy.com/tutoriales/como-eliminar-virus-windows-sin-antivirus-1394840" target="_blank" class="btn"><i class="fas fa-mask"></i> ELIMINAR SIN ANTIVIRUS</a>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-gem"></i> Massgrave</h3>
+                    <div class="code-box"><strong>irm https://get.activated.win | iex</strong></div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-book"></i> Manuales Aulas</h3>
+                    <a href="https://www.commproduct.eu/es/products/aulas-maker/" target="_blank" class="btn">AULAS MAKER</a>
+                    <a href="https://www.commproduct.eu/es/products/aulas-vivenciales/" target="_blank" class="btn">AULAS VIVENCIALES</a>
+                    <a href="https://www.commproduct.eu/es/products/streaming-y-podcast/" target="_blank" class="btn">MALETA AUDIOVISUAL 1</a>
+                    <a href="https://drive.google.com/file/d/1AbywjjWja6NBvD2QrrJGpaBI3AsKJJrB/view?usp=sharing" target="_blank" class="btn">MALETA AUDIOVISUAL 2</a>
+                </div>
+
+                <div class="card" style="grid-column: span 1;">
+                    <h3><i class="fas fa-server"></i> Servidor</h3>
+                    <a href="https://drive.google.com/file/d/1PJSgpiTvs3AjuYmXuIvLXLCGskKTMyJS/view?usp=sharing" target="_blank" class="btn">CAMBIO IP</a>
+                    <a href="https://docs.google.com/document/d/1Mh9g30A2-SBkEUGGkW1nSpdCTb1NFnCTGCEU9_NXtds/edit?usp=drivesdk" target="_blank" class="btn">CAMBIO DNS</a>
+                    <div class="code-box">ssh suport@ip (Pass suport)<br>sudo gedit /etc/network/interfaces.d/eth0.cfg<br>sudo gedit /etc/netplan/50-linkat-net-config-yaml<br>sudo gedit /etc/bind/named.conf.options<br>service bind9 restart<br>Sudo reboot -h now</div>
+                    <a href="https://www.cyberciti.biz/faq/start-stop-restart-bind9-linux-command/" target="_blank" class="btn">CÓDIGOS LINUX BIND9</a>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-layer-group"></i> Otros</h3>
+                    <a href="https://sites.google.com/view/software-it" target="_blank" class="btn">SITES SOFTWARE</a>
+                    <a href="https://sites.google.com/view/formacion-julio-2025/inicio?authuser=1" target="_blank" class="btn">FORMACIONES INET</a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
+    <footer>
+        (CO)pyrght by Jesús Flores para COSAS DE INET
+    </footer>
+
+    <script>
+        function openTab(tabName) {
+            // Ocultar todos los contenidos
+            var contents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active");
+            }
+            // Quitar clase active de los botones
+            var buttons = document.getElementsByTagName("button");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+            // Mostrar pestaña actual
+            document.getElementById(tabName).classList.add("active");
+            event.currentTarget.classList.add("active");
+            // Scroll al top
+            window.scrollTo(0,0);
+        }
+    </script>
 </body>
 </html>
