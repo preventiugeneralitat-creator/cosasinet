@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Equipos por Centro</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .control-panel {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        select {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            color: var(--text-color);
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.3s;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e8f4f8;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gestión de Equipos por Centro</h1>
+        
+        <div class="control-panel">
+            <select id="centroSelect" onchange="mostrarDatos()">
+                <option value="">-- Selecciona un centro --</option>
+                <option value="08052785_Escola_Vila_Olimpica_20260406">08052785_Escola_Vila_Olimpica_20260406</option>
+                <option value="08065202_CFA_Francesc_Layret_20260406">08065202_CFA_Francesc_Layret_20260406</option>
+                <option value="08064167_Escola_Sant_Marti_20260406">08064167_Escola_Sant_Marti_20260406</option>
+                <option value="08054903_Escola_Mediterrania_20260406">08054903_Escola_Mediterrania_20260406</option>
+                <option value="08061907_CFA_Barceloneta_20260406">08061907_CFA_Barceloneta_20260406</option>
+                <option value="08061701_CFA_Maria_Rubies_20260406">08061701_CFA_Maria_Rubies_20260406</option>
+                <option value="08055683_CFA_Manuel_Sacristan_20260406">08055683_CFA_Manuel_Sacristan_20260406</option>
+                <option value="08055002_CFA_Barri_Gotic_20260406">08055002_CFA_Barri_Gotic_20260406</option>
+                <option value="08033501_Escola_Antoni_Brusi_20260406">08033501_Escola_Antoni_Brusi_20260406</option>
+                <option value="08001868_Escola_Ruben_Dario_20260406">08001868_Escola_Ruben_Dario_20260406</option>
+                <option value="08034709_Institut_de_Quimica_i_Biotecnologia_de_Barcelona_20260406">08034709_Institut_de_Quimica_i_Biotecnologia_de_Barcelona_20260406</option>
+            </select>
+        </div>
+
+        <div class="table-responsive" id="table-container">
+            <div class="no-data">Por favor, selecciona un centro en el menú superior para ver sus datos.</div>
+        </div>
+    </div>
+
+    <script>
+        const basesDeDatos = {
+            "08052785_Escola_Vila_Olimpica_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+Ordinador Hp prodesk 400 G7 I5 8gb;1534633;CZC109BHG8;CiSE ámbito educativo;N/A;No;No;
+PORTATIL TOSHIBA SATELITE PRO A40-C-21D-C15;2,5361E+11;6J197581H;Renove;N/A;No;No;
+PORTATIL TOSHIBA SATELITE PRO A40-C-21D-C15;2,5361E+11;6J197580H;Renove;N/A;No;No;
+ORDINADOR LENOVO THINKCENTRE M710S I5-6400 8GB 500;2,5361E+11;PC0PVS8D;CiSE ámbito educativo;N/A;No;No;
+Ordinador Lenovo Thinkcentre M90q i5-11400T 8GB 25;2,54009E+11;PC2GQQAY;CiSE ámbito educativo;N/A;No;No;`,
+
+            "08065202_CFA_Francesc_Layret_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+ORDINADOR LENOVO THINKCENTRE M710Q I3 4GB 256SSD;2,538E+11;PC0TSDMJ;Renove;N/A;No;No;
+ORDINADOR LENOVO THINKCENTRE M710Q I3 4GB 256SSD;2,538E+11;PC0TSDPN;Renove;N/A;No;No;
+ORDINADOR LENOVO THINKCENTRE M710Q I3 4GB 256SSD;2,538E+11;PC0TSDR9;Renove;N/A;No;No;
+ORDINADOR LENOVO THINKCENTRE M710Q I3 4GB 256SSD;2,538E+11;PC0TSFRP;Renove;N/A;No;No;`,
+
+            "08064167_Escola_Sant_Marti_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,53609E+11;CZC75070RS;CiSE ámbito educativo;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,53609E+11;CZC75070K8;CiSE ámbito educativo;N/A;No;No;
+PORTATIL LENOVO V110-15IAP 15,6” PENTIUM;2,53611E+11;SR90MYFJJ;CiSE ámbito educativo;N/A;No;No;
+ORDINADOR LENOVO THINKCENTRE M710Q I3 4GB 256SSD;2,538E+11;PC0TSFSN;Renove;N/A;No;No;
+ORDINADOR LENOVO THINKCENTRE M710Q I3 4GB 256SSD;2,538E+11;PC0TSFT1;Renove;N/A;No;No;`,
+
+            "08054903_Escola_Mediterrania_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+ORDINADOR LENOVO THINKCENTRE M710S I5-6400 8GB 500;2,5361E+11;PC0PVSC8;Renove;N/A;No;No;
+ORDINADOR LENOVO THINKCENTRE M710S I5-6400 8GB 500;2,5361E+11;PC0PW9FL;Renove;N/A;No;No;`,
+
+            "08061907_CFA_Barceloneta_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC639861N;CiSE ámbito administrativo;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC63986BR;CiSE ámbito administrativo;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC639860Y;CiSE ámbito administrativo;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC639861Z;CiSE ámbito administrativo;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC639865M;CiSE ámbito administrativo;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC63986C3;CiSE ámbito administrativo;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC63985ZY;CiSE ámbito administrativo;N/A;No;No;`,
+
+            "08061701_CFA_Maria_Rubies_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC84075CQ;Renove;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC84073W0;Renove;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC031765;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC032988;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC031878;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC030963;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC030716;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,53611E+11;YLGC031957;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,53611E+11;YLGC028808;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,53611E+11;YLGC032906;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,53611E+11;YLGC030710;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,53611E+11;YLGC031877;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,53611E+11;YLGC030775;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,53611E+11;YLGC031937;CiSE ámbito educativo;N/A;No;No;`,
+
+            "08055683_CFA_Manuel_Sacristan_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC84079FD;Renove;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC84075FZ;Renove;N/A;No;No;
+Portatil HP Probook 450 G7 i5  (6YY26AV);2,538E+11;5CD108H5PD;CiSE ámbito educativo;N/A;No;No;
+Portatil HP Probook 450 G7 i5  (6YY26AV);2,53901E+11;5CD108H5PB;CiSE ámbito educativo;N/A;No;No;
+Portatil HP Probook 450 G7 i5  (6YY26AV);2,53901E+11;5CD108H5DF;CiSE ámbito educativo;N/A;No;No;
+Portatil HP Probook 450 G7 i5  (6YY26AV);2,53901E+11;5CD108H5D4;CiSE ámbito educativo;N/A;No;No;
+THINKBOOK 14 G6 IRL i3 - Type 21KG (21KGS01200);2,549E+11;SPW0FZTNF;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL i3 - Type 21KG (21KGS01200);2,549E+11;SPW0FZTD2;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL i3 - Type 21KG (21KGS01200);2,549E+11;SPW0FZTEL;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL i3 - Type 21KG (21KGS01200);2,549E+11;SPW0FZT9B;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL i3 - Type 21KG (21KGS01200);2,549E+11;SPW0FZTGT;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;`,
+
+            "08055002_CFA_Barri_Gotic_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC84079BQ;Renove;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC030458;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC030888;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC030833;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC030741;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC030646;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Fujitsu Esprimo E400 Proceden;2,5361E+11;YLGC030829;CiSE ámbito educativo;N/A;No;No;
+THINKBOOK 14 G6 IRL;2,549E+11;SPW0B1T6L;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL;2,549E+11;SPW0B1T9Y;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL;2,549E+11;SPW0AXF9W;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL;2,549E+11;SPW0AXF9K;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL;2,549E+11;SPW0B1T9G;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL;2,549E+11;SPW0B1T8B;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;
+THINKBOOK 14 G6 IRL;2,549E+11;SPW0B1T6M;CiSE Aules Maker Vivencials Capacitació;N/A;No;No;`,
+
+            "08033501_Escola_Antoni_Brusi_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+ORDINADOR LENOVO THINKCENTRE M710S I5-6400 8GB 500;2,5361E+11;PC0PVU6Q;Renove;N/A;No;No;
+PORTATIL LENOVO V110-15IAP 15,6” PENTIUM;2,53611E+11;SR90MYFM0;CiSE ámbito educativo;N/A;No;No;
+PORTATIL LENOVO V110-15IAP 15,6” PENTIUM;2,53611E+11;SR90MYFKC;CiSE ámbito educativo;N/A;No;No;`,
+
+            "08001868_Escola_Ruben_Dario_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC84073ZL;Renove;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC84073TJ;Renove;N/A;No;No;
+ORDINADOR HP ProDesk 400 G4 SFF I5;2,5361E+11;CZC840740H;Renove;N/A;No;No;`,
+
+            "08034709_Institut_de_Quimica_i_Biotecnologia_de_Barcelona_20260406": `Model;SACE;S/N;Àmbit;Localitzat;Kaspersky Desinst.;DFC Inst.;Observacions
+Ordinador Multimedia Lenovo ThinkCentre M910s i5-6;2,538E+11;PC1B9J58;Renove;N/A;No;No;
+Portatil Lenovo Thinkbook 15 G2 ITL i3;2,53901E+11;MP2BYKW9;CCFF;N/A;No;No;
+Thinkpad P17 G1;2,53901E+11;PF23S5G6;CiSE ámbito educativo;N/A;No;No;
+Thinkpad P17 G1;2,53901E+11;PF23VD1N;CiSE ámbito educativo;N/A;No;No;
+Thinkpad P17 G1;2,53901E+11;PF23W423;CiSE ámbito educativo;N/A;No;No;
+Thinkpad P17 G1;2,53901E+11;PF23S5HS;CiSE ámbito educativo;N/A;No;No;
+Thinkpad P17 G1;2,53901E+11;PF23SZ2R;CiSE ámbito educativo;N/A;No;No;
+Thinkpad P17 G1;2,53901E+11;PF23SPYC;CiSE ámbito educativo;N/A;No;No;
+Ordinador Multimedia Lenovo ThinkCentre M910s i5-6;2,53901E+11;PC1B9J2M;Renove;N/A;No;No;
+Ordinador Multimedia Lenovo ThinkCentre M910s i5-6;2,53901E+11;PC1BHT48;Renove;N/A;No;No;
+Ordinador Multimedia Lenovo ThinkCentre M910s i5-6;2,53901E+11;PC1B9J3W;Renove;N/A;No;No;
+Ordinador Multimedia Lenovo ThinkCentre M910s i5-6;2,53901E+11;PC1B9J2H;Renove;N/A;No;No;
+Ordinador Multimedia Lenovo ThinkCentre M910s i5-6;2,53901E+11;PC1B9K39;Renove;N/A;No;No;
+Ordinador Multimedia Lenovo ThinkCentre M910s i5-6;2,53901E+11;PC1B9J3Y;Renove;N/A;No;No;
+Ordinador Multimedia Lenovo ThinkCentre M910s i5-6;2,53901E+11;PC1B9J2Y;Renove;N/A;No;No;
+Thinkpad P17 G1;2,53901E+11;PF23S7FJ;CiSE ámbito educativo;N/A;No;No;`
+        };
+
+        function mostrarDatos() {
+            const select = document.getElementById("centroSelect");
+            const centroSeleccionado = select.value;
+            const contenedor = document.getElementById("table-container");
+
+            if (!centroSeleccionado) {
+                contenedor.innerHTML = '<div class="no-data">Por favor, selecciona un centro en el menú superior para ver sus datos.</div>';
+                return;
+            }
+
+            const csvData = basesDeDatos[centroSeleccionado];
+            
+            if (csvData) {
+                contenedor.innerHTML = generarTablaCSV(csvData);
+            } else {
+                contenedor.innerHTML = '<div class="no-data">No se encontraron datos para este centro.</div>';
+            }
+        }
+
+        // Función auxiliar para convertir formato científico (2,53E+11) a entero
+        function formatSACE(valor) {
+            if (!valor) return '';
+            // Reemplazar coma por punto para que JS lo entienda como número
+            let limpio = valor.toString().replace(',', '.');
+            let num = Number(limpio);
+            
+            // Si es un número válido, lo devolvemos como entero (sin decimales ni formato E)
+            if (!isNaN(num)) {
+                return BigInt(Math.round(num)).toString();
+            }
+            return valor; // Si no es número, devolver original
+        }
+
+        function generarTablaCSV(csvString) {
+            const filas = csvString.trim().split('\n');
+            if (filas.length === 0) return '';
+
+            let html = '<table>';
+            const cabeceras = filas[0].split(';');
+            
+            // Buscamos el índice de la columna SACE
+            const saceIndex = cabeceras.findIndex(h => h.trim().toUpperCase() === 'SACE');
+
+            html += '<thead><tr>';
+            cabeceras.forEach(cabecera => {
+                html += `<th>${cabecera.trim()}</th>`;
+            });
+            html += '</tr></thead>';
+
+            html += '<tbody>';
+            for (let i = 1; i < filas.length; i++) {
+                if (filas[i].trim() === '') continue; 
+                const columnas = filas[i].split(';');
+                html += '<tr>';
+                for(let j = 0; j < cabeceras.length; j++) {
+                    let valorCelda = columnas[j] ? columnas[j].trim() : '';
+                    
+                    // Aplicar formato especial si es la columna SACE
+                    if (j === saceIndex) {
+                        valorCelda = formatSACE(valorCelda);
+                    }
+                    
+                    html += `<td>${valorCelda}</td>`;
+                }
+                html += '</tr>';
+            }
+            html += '</tbody></table>';
+            return html;
+        }
+    </script>
+</body>
+</html>
