@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUSCADOR DE ARCHIVOS - Portal IT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --container-bg: #161b22;
+            --accent-color: #58a6ff;
+            --text-color: #c9d1d9;
+            --input-bg: #0d1117;
+            --border-color: #30363d;
+            --neon-blue: #00f2ff;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 50px;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 850px;
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.15);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+
+        /* Buscador */
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 45px 15px 20px;
+            font-size: 16px;
+            background-color: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-color);
+        }
+
+        /* Lista Desplegable */
+        .results-list {
+            max-height: 450px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--input-bg);
+            display: none;
+            margin-top: 5px;
+        }
+
+        .results-list.active {
+            display: block;
+        }
+
+        .result-item {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .result-item:hover {
+            background-color: #1f2937;
+            color: var(--neon-blue);
+            padding-left: 25px;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .code-badge {
+            font-weight: bold;
+            color: var(--neon-blue);
+            margin-right: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85em;
+            background: rgba(0, 242, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+        }
+
+        .center-name {
+            flex-grow: 1;
+            font-size: 0.95em;
+        }
+
+        /* Scrollbar Personalizada */
+        .results-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .results-list::-webkit-scrollbar-track {
+            background: var(--container-bg);
+        }
+        .results-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        .results-list::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+        .no-results {
+            padding: 25px;
+            text-align: center;
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        .instruction {
+            font-size: 0.8em;
+            color: #6e7681;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <h1>PORTAL IT: BUSCADOR DE CENTROS</h1>
+        
+        <p class="instruction">Busca por código o por cualquier palabra del nombre del centro</p>
+
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="Ej: 0800 o nombre de la escuela..." autocomplete="off">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <div id="resultsList" class="results-list">
+            </div>
+    </div>
+
+    <script>
+        // Datos de los archivos y enlaces
+        const centros = [
+            { codi: "08001595", nom: "ESCOLA BAIXERAS - CEB", url: "https://docs.google.com/spreadsheets/d/1MRIxrM6Sd1Izr4scr4yjanrsUkFWRncx/edit?usp=drive_link&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08001601", nom: "ESCOLA PARC DE LA CIUTADELLA - CEB", url: "https://docs.google.com/spreadsheets/d/1MjRjcctioOS8El3Jl93JuTOSe6hpCPp1/edit?usp=drive_link&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08001868", nom: "ESCOLA RUBEN DARIO - CEB", url: "https://docs.google.com/spreadsheets/d/1trGBH5Pq5oqoo5t_p4qAmF9BxKil4m9C/edit?usp=drive_link&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08013238", nom: "INSTITUT VERDAGUER - CEB", url: "https://docs.google.com/spreadsheets/d/1LNVUdQviwsKEyICBJpVgrIuPZ3VgV_Qh/edit?usp=drive_link&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08033501", nom: "ESCOLA ANTONI BRUSI - CEB", url: "https://docs.google.com/spreadsheets/d/1MPnZRurSC5miTyhnm4d2UkRRSl0zo78J/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08034709", nom: "INSTITUT DE QUIMICA I BIOTECNOLOGIA DE BARCELONA - CEB", url: "https://docs.google.com/spreadsheets/d/1HaaMvaP0l2xRKc2MSfasL5YDqYQ01yW1/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08037814", nom: "ESCOLA ALEXANDRE GALI - CEB", url: "https://docs.google.com/spreadsheets/d/1HBmv4sjd5lPEVK22r5-2_7TOr81KByI7/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08052785", nom: "ESCOLA VILA OLIMPICA - CEB", url: "https://docs.google.com/spreadsheets/d/1rD6cKD8fPDSrq_Ur8zkcihypsOIgUd3P/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08054903", nom: "ESCOLA MEDITERRANIA - CEB", url: "https://docs.google.com/spreadsheets/d/1ZOvY2FQtnFQIdjnsGo4aTvO0p7h5S_Ks/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08055002", nom: "CFA BARRI GOTIC - CEB", url: "https://docs.google.com/spreadsheets/d/1TxE7TtZTVXtNpSs8SGMWrB_o35Ic-WPP/edit?usp=drive_link&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08055683", nom: "CFA MANUEL SACRISTAN - CEB", url: "https://docs.google.com/spreadsheets/d/1xLTGQAJR9Luxy5gFeaJCpB1b79nQJaOh/edit?usp=drive_link&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08058775", nom: "INSTITUT FRONT MARITIM - CEB", url: "https://docs.google.com/spreadsheets/d/1QFJ2XjOl0Z2bSxIt_F7Fkb79ig4PVInN/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08061701", nom: "CFA MARIA RUBIES - CEB", url: "https://docs.google.com/spreadsheets/d/1blvo4ny2sU-PbwjYPK2A6afNMEoIlC94/edit?usp=drive_link&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08061907", nom: "CFA BARCELONETA - CEB", url: "https://docs.google.com/spreadsheets/d/1jvuVynwAgB0-JPbyQXVlznmEojLDFuty/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08064167", nom: "ESCOLA SANT MARTI - CEB", url: "https://docs.google.com/spreadsheets/d/1LZEmkbu762rfNfpk6-QSUgxiHbBiRA4T/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08065202", nom: "CFA FRANCESC LAYRET - CEB", url: "https://docs.google.com/spreadsheets/d/1jJuXvPrH75H8X2MQBeM1fIWG4cLCrlsT/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08066565", nom: "INSTITUT JONCAR - CEB", url: "https://docs.google.com/spreadsheets/d/1BNkZG-IPgs_WL1UFbKcyx3dmZtwfxQ4z/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08078385", nom: "INSTITUT TIC DE BARCELONA - CEB", url: "https://docs.google.com/spreadsheets/d/1FDt5GGJfEHqjHRowgbAJhvZAsAZDCoTt/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08078403", nom: "INSTITUT DE TECNIQUES AUDIOVISUALS I DE LESPECTAC - CEB", url: "https://docs.google.com/spreadsheets/d/1M5uXJHIgBQrMW0IvIjuE8olqs3K1Zkyk/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" },
+            { codi: "08911547", nom: "CENTRE DE SUPORT A LA INNOVACIO I LA RECERCA EDUCA - CEB", url: "https://docs.google.com/spreadsheets/d/1PcBxVIqMrC4j-JvpcqtDNcFK9nZxKMZs/edit?usp=sharing&ouid=107351957415557010409&rtpof=true&sd=true" }
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const resultsList = document.getElementById('resultsList');
+
+        function filterResults() {
+            const query = searchInput.value.toLowerCase().trim();
+            resultsList.innerHTML = '';
+
+            if (query === '') {
+                resultsList.classList.remove('active');
+                return;
+            }
+
+            // Filtrado por código o por cualquier palabra del nombre
+            const filtered = centros.filter(c => 
+                c.codi.toLowerCase().includes(query) || 
+                c.nom.toLowerCase().includes(query)
+            );
+
+            if (filtered.length > 0) {
+                resultsList.classList.add('active');
+                filtered.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
+                    div.innerHTML = `
+                        <span class="code-badge">${item.codi}</span>
+                        <span class="center-name">${item.nom}</span>
+                        <i class="fas fa-external-link-alt" style="font-size: 0.8em; opacity: 0.6;"></i>
+                    `;
+                    div.onclick = () => {
+                        window.open(item.url, '_blank');
+                        // Opcional: limpiar búsqueda tras click
+                        // searchInput.value = '';
+                        // resultsList.classList.remove('active');
+                    };
+                    resultsList.appendChild(div);
+                });
+            } else {
+                resultsList.classList.add('active');
+                resultsList.innerHTML = '<div class="no-results">No se han encontrado coincidencias...</div>';
+            }
+        }
+
+        searchInput.addEventListener('input', filterResults);
+
+        // Cerrar la lista si se hace clic fuera del contenedor
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-wrapper') && !e.target.closest('#resultsList')) {
+                resultsList.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
