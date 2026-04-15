@@ -38,6 +38,7 @@
             border-radius: 12px;
             border: 1px solid var(--border-color);
             box-shadow: 0 0 25px rgba(0, 242, 255, 0.15);
+            position: relative; /* Para ayudar con el posicionamiento si fuera necesario */
         }
 
         h1 {
@@ -85,7 +86,7 @@
 
         /* Lista Desplegable */
         .results-list {
-            max-height: 450px;
+            max-height: 400px;
             overflow-y: auto;
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -135,6 +136,35 @@
             font-size: 0.95em;
         }
 
+        /* Botón Regresar */
+        .footer-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .btn-regresar {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            text-decoration: none;
+            border: 1px solid var(--neon-blue);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-regresar:hover {
+            background-color: var(--neon-blue);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+
         /* Scrollbar Personalizada */
         .results-list::-webkit-scrollbar {
             width: 8px;
@@ -179,6 +209,12 @@
 
         <div id="resultsList" class="results-list">
             </div>
+
+        <div class="footer-actions">
+            <a href="index.html" class="btn-regresar">
+                <i class="fas fa-arrow-left"></i> REGRESAR
+            </a>
+        </div>
     </div>
 
     <script>
@@ -218,7 +254,6 @@
                 return;
             }
 
-            // Filtrado por código o por cualquier palabra del nombre
             const filtered = centros.filter(c => 
                 c.codi.toLowerCase().includes(query) || 
                 c.nom.toLowerCase().includes(query)
@@ -236,9 +271,6 @@
                     `;
                     div.onclick = () => {
                         window.open(item.url, '_blank');
-                        // Opcional: limpiar búsqueda tras click
-                        // searchInput.value = '';
-                        // resultsList.classList.remove('active');
                     };
                     resultsList.appendChild(div);
                 });
@@ -250,7 +282,6 @@
 
         searchInput.addEventListener('input', filterResults);
 
-        // Cerrar la lista si se hace clic fuera del contenedor
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.search-wrapper') && !e.target.closest('#resultsList')) {
                 resultsList.classList.remove('active');
