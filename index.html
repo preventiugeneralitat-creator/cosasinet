@@ -3,7 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
+  <!-- Evitar la caché en navegadores -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <title>TÉCNICOS INET</title>
+
+  <!-- PWA & Iconos -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icono.png">
+  <link rel="apple-touch-icon" href="icono.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TÉCNICOS INET">
+  <meta name="theme-color" content="#004b7c">
+
   <style>
     /* Reset básico */
     * {
@@ -14,17 +30,16 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #004b7c; /* Azul institucional */
+      background-color: #004b7c;
       color: #ffffff;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
       padding: 15px;
-      /* Ajuste de padding superior dinámico para evitar solapamientos con el header fijo */
       padding-top: 180px;
     }
 
-    /* Cabecera fija a pantalla completa */
+    /* Cabecera fija */
     header {
       position: fixed;
       top: 0;
@@ -57,6 +72,7 @@
       width: 38px;
       height: 38px;
       flex-shrink: 0;
+      border-radius: 6px;
     }
 
     h1.main-title {
@@ -67,7 +83,7 @@
       letter-spacing: 1px;
     }
 
-    /* Navegación centrada */
+    /* Navegación */
     nav {
       display: flex;
       justify-content: center;
@@ -104,7 +120,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
-    /* Contenido principal */
+    /* Contenido */
     main {
       flex: 1;
       width: 100%;
@@ -213,19 +229,63 @@
       margin-right: auto;
     }
 
-    /* Ajustes responsive para dispositivos móviles (Android / iPhone) */
+    /* Banner Banner de Instalación Personalizado */
+    #pwa-install-banner {
+      display: none;
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 450px;
+      background: #ffffff;
+      color: #004b7c;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      z-index: 2000;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    #pwa-install-banner img {
+      width: 45px;
+      height: 45px;
+      border-radius: 8px;
+    }
+
+    #pwa-install-banner .banner-text {
+      flex: 1;
+      font-size: 0.9rem;
+      color: #2c3e50;
+    }
+
+    #pwa-install-banner .banner-text strong {
+      display: block;
+      color: #004b7c;
+    }
+
+    #pwa-install-btn {
+      background: #008080;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     @media (max-width: 768px) {
       body {
         padding: 12px;
-        padding-top: 220px; /* Mayor separación para evitar solapamientos en pantallas estrechas */
+        padding-top: 220px;
       }
-
       h1.main-title {
         font-size: 1.5rem;
       }
-
       nav button {
-        flex: 1 1 calc(50% - 10px); /* 2 botones por fila en móviles */
+        flex: 1 1 calc(50% - 10px);
         max-width: 100%;
         padding: 10px 8px;
         font-size: 0.85rem;
@@ -234,11 +294,10 @@
 
     @media (max-width: 420px) {
       body {
-        padding-top: 260px; /* Ajuste para cuando el menú ocupa 3 filas */
+        padding-top: 260px;
       }
-
       nav button {
-        flex: 1 1 100%; /* 1 botón por fila en pantallas muy pequeñas */
+        flex: 1 1 100%;
       }
     }
   </style>
@@ -248,13 +307,7 @@
   <header>
     <div class="header-container">
       <div class="header-title-container">
-        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="3" width="20" height="14" rx="2" ry="2" fill="#004b7c" stroke="#ffffff"></rect>
-          <line x1="8" y1="21" x2="16" y2="21" stroke="#ffffff"></line>
-          <line x1="12" y1="17" x2="12" y2="21" stroke="#ffffff"></line>
-          <circle cx="12" cy="10" r="2.5" fill="#004b7c" stroke="#ffffff"></circle>
-          <path d="M12 6.5v1M12 12.5v1M8.5 10h1M14.5 10h1M9.5 7.5l.7.7M13.8 11.8l.7.7M9.5 12.5l.7-.7M13.8 8.2l.7-.7" stroke="#ffffff"></path>
-        </svg>
+        <img src="icono.png" class="header-icon" alt="Logo">
         <h1 class="main-title">TÉCNICOS INET</h1>
       </div>
       <nav id="menu-navegacion"></nav>
@@ -263,15 +316,70 @@
 
   <main id="contenido-paginas"></main>
 
+  <!-- Banner de instalación para navegadores sin prompt automático o iOS -->
+  <div id="pwa-install-banner">
+    <img src="icono.png" alt="App Icon">
+    <div class="banner-text">
+      <strong>Instalar App</strong>
+      <span id="banner-instruction">Añade la app a tu pantalla de inicio.</span>
+    </div>
+    <button id="pwa-install-btn">Instalar</button>
+  </div>
+
   <footer>
     <p>(C)opyright by TÉCNICOS INET 2026</p>
   </footer>
 
   <script>
-    // Valor encriptado en Base64 de la contraseña "Reino2024"
+    // 1. Registro del Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+          reg.update(); // Fuerza la actualización si hay cambios
+        });
+      });
+    }
+
+    // 2. Control de Instalación PWA (Android / Windows / Chrome / Edge / Brave / Opera)
+    let deferredPrompt;
+    const banner = document.getElementById('pwa-install-banner');
+    const installBtn = document.getElementById('pwa-install-btn');
+    const instruction = document.getElementById('banner-instruction');
+
+    // Comprobar si ya está instalada como App
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+    if (!isStandalone) {
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        banner.style.display = 'flex';
+      });
+
+      // Detección especial para iOS (iPhone/iPad Safari)
+      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIos) {
+        instruction.textContent = 'Pulsa "Compartir" y luego "Añadir a pantalla de inicio"';
+        installBtn.style.display = 'none';
+        banner.style.display = 'flex';
+      }
+    }
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          banner.style.display = 'none';
+        }
+        deferredPrompt = null;
+      }
+    });
+
+    // 3. Carga dinámica de web.txt (Forzando petición limpia a la red)
     const PASS_OFUSCADA = "UmVpbm8yMDI0";
 
-    fetch('web.txt?v=' + new Date().getTime(), { cache: 'no-cache' })
+    fetch('web.txt?v=' + new Date().getTime(), { cache: 'no-store' })
       .then(response => {
         if (!response.ok) {
           throw new Error('No se pudo cargar el archivo web.txt (Código: ' + response.status + ')');
