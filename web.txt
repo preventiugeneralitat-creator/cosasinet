@@ -62,8 +62,20 @@
         {
           "titulo": "UTILIDADES DEL SERVICIO",
           "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/server.svg",
-          "boton_texto": "ACCESO AL SERVIDOR",
+          "boton_texto": "ACCESO AL SERVICIO",
           "boton_url": "https://atenea-aapp.synology.me/index.php?page=utilitats-servei"
+        },
+        {
+          "titulo": "KONICA EN WINDOWS 11",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/printer.svg",
+          "boton_texto": "INSTALAR KONICA",
+          "boton_url": "https://drive.google.com/file/d/1vwY3VCDk4xIfqJKa7hSxxtskt1l-5wNT/view?usp=sharing"       
+        },
+        {
+          "titulo": "EXTRAER HASH AUTOMÁTICAMENTE",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/tools.svg",
+          "boton_texto": "EXTRACTOR HASH",
+          "boton_url": "https://drive.google.com/file/d/1uXIwcjCeE9zXuvdC9au1QErO1zYEaAit/view?usp=sharing"       
         },
         {
           "titulo": "RENOVACIÓN PORTÁTILES RENOVE",
@@ -105,13 +117,13 @@
         {
           "titulo": "OFFICE 386 X86",
           "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-word.svg",
-          "boton_texto": "Ir a ONLYOFFICE",
+          "boton_texto": "DESCARGAR OFFICE 386",
           "boton_url": "https://drive.usercontent.google.com/download?id=1IZvIPqZiS4rMJx24K34G5yhGvfYJ1OEk&export=download"
         },
         {
           "titulo": "OFFICE 386 X64",
           "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-word.svg",
-          "boton_texto": "Ir a ONLYOFFICE",
+          "boton_texto": "DESCARGAR OFFICE 386 X64",
           "boton_url": "https://drive.usercontent.google.com/download?id=1D32pHxPFkGcIzavljVu3rtrQIzhxYTr1&export=download"
         },
         {
