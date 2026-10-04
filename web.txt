@@ -1,0 +1,227 @@
+{
+  "paginas": [
+    {
+      "id": "EMPRESA",
+      "titulo_pagina": "EMPRESA",
+      "tarjetas": [
+        {
+          "titulo": "CORREO INET",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/envelope-at.svg",
+          "boton_texto": "VER CORREO INET",
+          "boton_url": "https://get.adobe.com/es/reader/http://mail.grupo-inet.com/Default.aspx"
+        },
+        {
+          "titulo": "ATOM GENCAT",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/building.svg",
+          "boton_texto": "ACCEDER A ATOM",
+          "boton_url": "https://autenticaciogicar5.extranet.gencat.cat/realms/gicar-ad/protocol/saml?SAMLRequest=..."
+        },
+        {
+          "titulo": "PORTAL DEL EMPLEADO",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/person-circle.svg",
+          "boton_texto": "ACESSO EMPLEADOS",
+          "boton_url": "https://axis.grupocastilla.es/epsilonnet/default.aspx"
+        },
+        {
+          "titulo": "ATENEU SINOLOGY",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/server.svg",
+          "boton_texto": "ACCESO AL SERVIDOR",
+          "boton_url": "https://atenea-aapp.synology.me:2022/?launchApp=SYNO.SDS.Drive.BasicInstance&launchParam=link%3DxJ2dd9aA7T6t9f5Nxae99FC7aK08Prl6#/signin"
+        },
+        {
+          "titulo": "MICROSOFT GENCAT",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/server.svg",
+          "boton_texto": "ACCESO AL SERVIDOR",
+          "boton_url": "https://aeticat.sharepoint.com/:f:/s/msteams_09a9e4-OscarTN/EosG_iXXTq5Cg1RCpG8uKd4BvUnSmMglX6bTZr8Myzd8Vw?e=5%3axb1300&at=9"
+        },
+        {
+          "titulo": "INTUNE GENCAT",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/building.svg",
+          "boton_texto": "ACCESO A INTUNE GENCAT",
+          "boton_url": "https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=c44b4083-3bb0-49c1-b47d-974e53cbdf3c&scope=https%3A%2F%2Fmanagement.core.windows.net%2F%2F.default%20openid%20profile%20offline_access&redirect_uri=https%3A%2F%2Fintune.microsoft.com%2Fauth%2Flogin%2F&client-request-id=01a0fc4f-20b6-731b-b4e4-33570e208f82&response_mode=fragment&client_info=1&clidata=1&nonce=01a0fc4f-20b6-7d37-9f12-ee25fa2c140a&state=eyJpZCI6IjAxYTBmYzRmLTIwYjYtNzA1Ny05MzQ3LWMzNDA3OWY1OTU4MCIsIm1ldGEiOnsiaW50ZXJhY3Rpb25UeXBlIjoicmVkaXJlY3QifX0%3D&x-client-SKU=msal.js.browser&x-client-VER=5.13.0&response_type=code&code_challenge=nfGc0IUV8DQLAhmw2IQiYS5LZrVEYCIejwGH-q1ho1M&code_challenge_method=S256&site_id=501430&instance_aware=true"
+        },
+        {
+          "titulo": "MAQUETAS",
+          "texto": "Password: #Tech%26",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/server.svg",
+          "boton_texto": "DESCARGAR MAQUETAS",
+          "boton_url": "https://atenea-aapp.synology.me/"
+        }
+      ]
+    },
+    {
+      "id": "HERRAMIENTAS",
+      "titulo_pagina": "HERRAMIENTAS",
+      "tarjetas": [
+        {
+          "titulo": "FORMULARIO PILA BIOS",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-check.svg",
+          "boton_texto": "RELLENAR FORMULARIO",
+          "boton_url": "https://docs.google.com/forms/d/e/1FAIpQLSefRF7Mbf1SPUqFR6xJghSXN1Vj_LKe2ZHFkPc0BcvBMfabrg/viewform"
+        },
+        {
+          "titulo": "UTILIDADES DEL SERVICIO",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/server.svg",
+          "boton_texto": "ACCESO AL SERVIDOR",
+          "boton_url": "https://atenea-aapp.synology.me/index.php?page=utilitats-servei"
+        },
+        {
+          "titulo": "RENOVACIÓN PORTÁTILES RENOVE",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/server.svg",
+          "boton_texto": "VER PORTÁTILES",
+          "boton_url": "https://atenea-aapp.synology.me/serveipresencial/utilitats/renoves/docents.php"
+        }
+      ]
+    },
+    {
+      "id": "software",
+      "titulo_pagina": "SOFTWARE",
+      "tarjetas": [
+        {
+          "titulo": "UNIDADES DE RED",
+          "texto": "Pequeño BAT para añadir las unidades de red en cualquier ordenador. Solo hay que editarlo y cambiar la IP por la del servidor del centro.",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/hdd-network.svg",
+          "boton_texto": "ARCHIVO BAT",
+          "boton_url": "https://drive.google.com/file/d/1QCXr5NCOJ7HNXxgP6o32LvVzb9mWq1z5/view?usp=sharing"
+        },
+        {
+          "titulo": "7ZIP",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-zip.svg",
+          "boton_texto": "DESCARGAR 7ZIP",
+          "boton_url": "https://github.com/ip7z/7zip/releases/download/26.03/7z2603-x64.exe"
+        },
+        {
+          "titulo": "ONLYOFFICE",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-word.svg",
+          "boton_texto": "Ir a ONLYOFFICE",
+          "boton_url": "https://github.com/ONLYOFFICE/desktop-onlineinstaller/releases/latest/download/ONLYOFFICEDesktopInstaller.exe"
+        },
+        {
+          "titulo": "PATCHMYPC",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-code.svg",
+          "boton_texto": "ACCESO AL SERVIDOR",
+          "boton_url": "https://homeupdater.patchmypc.com/public/PatchMyPC-HomeUpdater.msi?_gl=1*1r8h92x*_up*MQ..*_gs*MQ..*_ga*MTY5NzE3OTkwNy4xNzkxMTA0NDM1*_ga_D02JENEQEJ*czE3OTExMDQ0MzQkbzEkZzEkdDE3OTExMDQ0NDYkajQ4JGwwJGgyMjYwNDc1MTU.&gclid=Cj0KCQjw8ofWBhCHARIsANBj4Lv_7YZj8uFpTd_93kQWsvesLRl1DB66V5Ymuy5jcIWeWzxs7pgu9j8aAhOpEALw_wcB&gbraid=0AAAAApeI_W0roDVsAotmlAbvyUBxP3PxU&utm_source=google&utm_medium=cpc&utm_campaign=eu-search-branded&utm_term=patchmypc"
+        },
+        {
+          "titulo": "OFFICE 386 X86",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-word.svg",
+          "boton_texto": "Ir a ONLYOFFICE",
+          "boton_url": "https://drive.usercontent.google.com/download?id=1IZvIPqZiS4rMJx24K34G5yhGvfYJ1OEk&export=download"
+        },
+        {
+          "titulo": "OFFICE 386 X64",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-word.svg",
+          "boton_texto": "Ir a ONLYOFFICE",
+          "boton_url": "https://drive.usercontent.google.com/download?id=1D32pHxPFkGcIzavljVu3rtrQIzhxYTr1&export=download"
+        },
+        {
+          "titulo": "PRUEBAS DE TECLADO",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/keyboard.svg",
+          "boton_texto": "PROBAR TECLADO",
+          "boton_url": "https://www.wikiversus.com/gaming/teclados/test-key-rollover-y-anti-ghosting"
+        },
+        {
+          "titulo": "ACELERAR PC",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/toolbox-fill.svg",
+          "boton_texto": "DESCARGAR",
+          "boton_url": "https://drive.google.com/file/d/1VXUx5TFpwsEfd4MR9eZOBNjEo897kggf/view?usp=sharing"
+        },
+        {
+          "titulo": "SCRIPTS POWERSHELL",
+          "texto": "INSTALAR APLICACIONES\nirm https://christitus.com/win | iex\n\nMASSGRAVE\nirm https://get.activated.win | iex",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/terminal.svg"
+        },
+        {
+          "titulo": "ANTIVIRUS BITDEFENDER",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/shield-check.svg",
+          "boton_texto": "DESCARGAR BITDEFENDER",
+          "boton_url": "https://www.bitdefender.es/solutions/free.html#"
+        },
+        {
+          "titulo": "ANTIVIRUS AVAST",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/shield-check.svg",
+          "boton_texto": "DESCARGAR AVAST",
+          "boton_url": "https://www.avast.com/es-es/download-thank-you.php?product=FAV-ONLINE-W11"
+        },
+        {
+          "titulo": "LIMPIEZA VIRUS MANUAL",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/shield-check.svg",
+          "boton_texto": "VER CÓMO",
+          "boton_url": "https://computerhoy.com/tutoriales/como-eliminar-virus-windows-sin-antivirus-1394840"
+        }
+      ]
+    },
+    {
+      "id": "DRIVERS",
+      "titulo_pagina": "DRIVERS",
+      "tarjetas": [
+        {
+          "titulo": "DELL",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/display.svg",
+          "boton_texto": "DESCARGAR DELL",
+          "boton_url": "https://drive.google.com/file/d/1YP-iyZ3IxDoZjxIdu5FYrrNh00pbJ2W3/view?usp=drive_link"
+        },
+        {
+          "titulo": "HP",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/server.svg",
+          "boton_texto": "DESCARGAR HP",
+          "boton_url": "https://drive.google.com/file/d/1V2yO2XWusyYO5E0AB5qPjM6ZO4tGVob0/view?usp=drive_link"
+        },
+        {
+          "titulo": "INTEL",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/display.svg",
+          "boton_texto": "DESCARGAR INTEL",
+          "boton_url": "https://drive.google.com/file/d/1UkeAAsoVw5jbFKEIGQ29I0UAe7TUAPiT/view?usp=drive_link"
+        },
+        {
+          "titulo": "LENOVO",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/display.svg",
+          "boton_texto": "DESCARGAR LENOVO",
+          "boton_url": "https://drive.google.com/file/d/192BkIlyQFN-Oqdq9TwZgVAuca5VzR-A9/view?usp=drive_link"
+        },
+        {
+          "titulo": "PANELES",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/display.svg",
+          "boton_texto": "DESCARGAR PANELES",
+          "boton_url": "https://drive.google.com/drive/folders/1aE1Evjr_-c7Pq9DtEgPw34TOOPjgEHfc?usp=drive_link"
+        }
+      ]
+    },
+    {
+      "id": "PERSONAL",
+      "titulo_pagina": "PERSONAL JESÚS",
+      "tarjetas": [
+        {
+          "titulo": "VISITAS",
+          "imagen": "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-excel.svg",
+          "boton_texto": "VER VISITAS",
+          "boton_url": "https://filedn.eu/lTfK08yBBUmfiimV2cvWFHb/Visita%20INET/index.html"       
+        },
+        {
+          "titulo": "IMPRIMIR BAD",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/printer.svg",
+          "boton_texto": "IMPRIMIR",
+          "boton_url": "https://filedn.eu/lTfK08yBBUmfiimV2cvWFHb/BAD%20visitas/index.html"       
+        },
+        {
+          "titulo": "KONICA EN WINDOWS 11",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/printer.svg",
+          "boton_texto": "INSTALAR KONICA",
+          "boton_url": "https://drive.google.com/file/d/1vwY3VCDk4xIfqJKa7hSxxtskt1l-5wNT/view?usp=sharing"       
+        },
+        {
+          "titulo": "EXTRAER HASH AUTOMÁTICAMENTE",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/tools.svg",
+          "boton_texto": "EXTRACTOR HASH",
+          "boton_url": "https://drive.google.com/file/d/1uXIwcjCeE9zXuvdC9au1QErO1zYEaAit/view?usp=sharing"       
+        },
+        {
+          "titulo": "FICHAS CENTRO",
+          "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/file-earmark-excel.svg",
+          "boton_texto": "VER EXCEL",
+          "boton_url": "https://preventiugeneralitat-creator.github.io/cosasinet/fichas.html"
+        }
+      ]
+    }
+  ]
+}
