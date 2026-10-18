@@ -14,7 +14,7 @@
           "titulo": "ATOM GENCAT",
           "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/building.svg",
           "boton_texto": "ACCEDER A ATOM",
-          "boton_url": "https://autenticaciogicar5.extranet.gencat.cat/realms/gicar-ad/protocol/saml?SAMLRequest=..."
+          "boton_url": "https://atomgencat.onbmc.com"
         },
         {
           "titulo": "PORTAL DEL EMPLEADO",
@@ -29,7 +29,7 @@
           "boton_url": "https://atenea-aapp.synology.me:2022/?launchApp=SYNO.SDS.Drive.BasicInstance&launchParam=link%3DxJ2dd9aA7T6t9f5Nxae99FC7aK08Prl6#/signin"
         },
         {
-          "titulo": "MICROSOFT GENCAT",
+          "titulo": "SERVIDOR MICROSOFT GENCAT",
           "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/server.svg",
           "boton_texto": "ACCESO AL SERVIDOR",
           "boton_url": "https://aeticat.sharepoint.com/:f:/s/msteams_09a9e4-OscarTN/EosG_iXXTq5Cg1RCpG8uKd4BvUnSmMglX6bTZr8Myzd8Vw?e=5%3axb1300&at=9"
@@ -38,7 +38,7 @@
           "titulo": "INTUNE GENCAT",
           "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/building.svg",
           "boton_texto": "ACCESO A INTUNE GENCAT",
-          "boton_url": "https://atriportal.gencat.cat/"
+          "boton_url": "https://intune.microsoft.com/"
         },
         {
           "titulo": "MAQUETAS",
