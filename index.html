@@ -229,6 +229,82 @@
       margin-right: auto;
     }
 
+    /* Modal de contraseña personalizado */
+    #password-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 3000;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      color: #2c3e50;
+      padding: 25px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .modal-content h3 {
+      color: #004b7c;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    .modal-content p {
+      font-size: 0.9rem;
+      color: #4a5568;
+      margin-bottom: 15px;
+    }
+
+    .modal-content input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    .modal-content input[type="password"]:focus {
+      border-color: #004b7c;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .modal-buttons button {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+    }
+
+    #modal-btn-cancel {
+      background: #e2e8f0;
+      color: #4a5568;
+    }
+
+    #modal-btn-accept {
+      background: #008080;
+      color: #ffffff;
+    }
+
     /* Banner Banner de Instalación Personalizado */
     #pwa-install-banner {
       display: none;
@@ -315,6 +391,19 @@
   </header>
 
   <main id="contenido-paginas"></main>
+
+  <!-- Modal personalizado para la contraseña oculta -->
+  <div id="password-modal">
+    <div class="modal-content">
+      <h3>Acceso Restringido</h3>
+      <p>Introduce la contraseña para acceder a esta sección:</p>
+      <input type="password" id="modal-password-input" placeholder="Contraseña">
+      <div class="modal-buttons">
+        <button id="modal-btn-cancel">Cancelar</button>
+        <button id="modal-btn-accept">Aceptar</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Banner de instalación para navegadores sin prompt automático o iOS -->
   <div id="pwa-install-banner">
@@ -464,20 +553,57 @@
 
     function cambiarPagina(idPagina, botonPulsado) {
       if (idPagina === 'PERSONAL') {
-        const pass = prompt('Introduce la contraseña para acceder a esta sección:');
-        if (!pass) return;
+        mostrarModalPassword((pass) => {
+          if (!pass) return;
 
-        if (btoa(pass) !== PASS_OFUSCADA) {
-          alert('Contraseña incorrecta.');
-          return;
-        }
+          if (btoa(pass) !== PASS_OFUSCADA) {
+            alert('Contraseña incorrecta.');
+            return;
+          }
+
+          activarPaginaVisible(idPagina, botonPulsado);
+        });
+      } else {
+        activarPaginaVisible(idPagina, botonPulsado);
       }
+    }
 
+    function activarPaginaVisible(idPagina, botonPulsado) {
       document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
 
       document.getElementById(idPagina).classList.add('activa');
       botonPulsado.classList.add('active');
+    }
+
+    function mostrarModalPassword(callback) {
+      const modal = document.getElementById('password-modal');
+      const input = document.getElementById('modal-password-input');
+      const btnAccept = document.getElementById('modal-btn-accept');
+      const btnCancel = document.getElementById('modal-btn-cancel');
+
+      input.value = '';
+      modal.style.display = 'flex';
+      input.focus();
+
+      function cerrar(pass) {
+        modal.style.display = 'none';
+        btnAccept.onclick = null;
+        btnCancel.onclick = null;
+        input.onkeydown = null;
+        callback(pass);
+      }
+
+      btnAccept.onclick = () => cerrar(input.value);
+      btnCancel.onclick = () => cerrar(null);
+      
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          cerrar(input.value);
+        } else if (e.key === 'Escape') {
+          cerrar(null);
+        }
+      };
     }
   </script>
 </body>
