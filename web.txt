@@ -72,10 +72,11 @@
           "boton_url": "https://drive.google.com/file/d/1vwY3VCDk4xIfqJKa7hSxxtskt1l-5wNT/view?usp=sharing"       
         },
         {
-          "titulo": "EXTRAER HASH AUTOMÁTICAMENTE",
+          "titulo": "EXTRAER HASH AUTOMÁTICAMENTE Y CAMBIAR NOMBRE EQUIPOS",
+          "texto": "Software para extraer el HASH de forma automática y cambiar el nombre de los equipos.",
           "imagen": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/tools.svg",
           "boton_texto": "EXTRACTOR HASH",
-          "boton_url": "https://drive.google.com/file/d/1uXIwcjCeE9zXuvdC9au1QErO1zYEaAit/view?usp=sharing"       
+          "boton_url": "https://drive.google.com/file/d/1PFG12KfzrCBtulJ4NoquQ2d1KUAZ1iOx/view?usp=sharing"       
         },
         {
           "titulo": "RENOVACIÓN PORTÁTILES RENOVE",
